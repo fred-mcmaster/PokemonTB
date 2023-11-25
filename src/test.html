@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team and Pokemon Management</title>
+</head>
+<body>
+
+  <h1>Team and Pokemon Management</h1>
+
+  <h2>Create Team</h2>
+  <form id="createTeamForm">
+    <label for="teamName">Team Name:</label>
+    <input type="text" id="teamName" name="teamName" required>
+    <button type="submit">Create Team</button>
+  </form>
+
+  <h2>Delete Team</h2>
+  <form id="deleteTeamForm">
+    <label for="deleteTeamName">Team Name to Delete:</label>
+    <input type="text" id="deleteTeamName" name="deleteTeamName" required>
+    <button type="submit">Delete Team</button>
+  </form>
+
+<h2>Add Pokemon to Team</h2>
+<form id="addPokemonForm">
+  <label for="teamNameAdd">Team Name:</label>
+  <input type="text" id="teamNameAdd" name="teamNameAdd" required>
+  <label for="newPokemon">New Pokemon:</label>
+  <input type="text" id="newPokemon" name="newPokemon" required>
+  <button type="submit">Add Pokemon</button>
+</form>
+
+<h2>Remove Pokemon from Team</h2>
+<form id="removePokemonForm">
+  <label for="teamNameRemove">Team Name:</label>
+  <input type="text" id="teamNameRemove" name="teamNameRemove" required>
+  <label for="pokemonNameRemove">Pokemon Name to Remove:</label>
+  <input type="text" id="pokemonNameRemove" name="pokemonNameRemove" required>
+  <button type="submit">Remove Pokemon</button>
+</form>
+
+  <script>
+    const handleCreateTeamForm = async (event) => {
+      event.preventDefault();
+
+      const teamName = document.getElementById('teamName').value;
+
+      try {
+        const response = await fetch('http://localhost:5000/api/teams', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ teamName }),
+        });
+
+        if (response.ok) {
+          console.log('Team created successfully!');
+        } else {
+          console.error('Error creating team:', response.statusText);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error.message);
+      }
+    };
+
+    const handleDeleteTeamForm = async (event) => {
+      event.preventDefault();
+
+      const deleteTeamName = document.getElementById('deleteTeamName').value;
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/teams/${deleteTeamName}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          console.log('Team deleted successfully!');
+        } else if (response.status === 404) {
+          console.error('Team not found:', response.statusText);
+        } else {
+          console.error('Error deleting team:', response.statusText);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error.message);
+      }
+    };
+
+  const handleAddPokemonForm = async (event) => {
+    event.preventDefault();
+
+    const teamNameAdd = document.getElementById('teamNameAdd').value;
+    const newPokemon = document.getElementById('newPokemon').value;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/teams/${teamNameAdd}/pokemons`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newPokemon }),
+      });
+
+      if (response.ok) {
+        console.log(`Pokemon "${newPokemon}" added to Team ${teamNameAdd}.`);
+      } else {
+        console.error('Error adding Pokemon:', response.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred:', error.message);
+    }
+  };
+
+  const handleRemovePokemonForm = async (event) => {
+    event.preventDefault();
+
+    const teamNameRemove = document.getElementById('teamNameRemove').value;
+    const pokemonNameRemove = document.getElementById('pokemonNameRemove').value;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/teams/${teamNameRemove}/pokemons/${pokemonNameRemove}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        console.log(`Pokemon "${pokemonNameRemove}" removed from Team ${teamNameRemove}.`);
+      } else if (response.status === 404) {
+        console.error('Pokemon not found:', response.statusText);
+      } else {
+        console.error('Error removing Pokemon:', response.statusText);
+      }
+    } catch (error) {
+      console.error('An error occurred:', error.message);
+    }
+  };
+
+    document.getElementById('createTeamForm').addEventListener('submit', handleCreateTeamForm);
+    document.getElementById('deleteTeamForm').addEventListener('submit', handleDeleteTeamForm);
+    document.getElementById('addPokemonForm').addEventListener('submit', handleAddPokemonForm);
+    document.getElementById('removePokemonForm').addEventListener('submit', handleRemovePokemonForm);
+  </script>
+
+</body>
+</html>

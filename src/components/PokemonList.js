@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function PokemonList({ pokemonList, teams, addPokemonToTeam}) {
   return (
-    <Row xs={1} md={4} className="g-12">
+    <Row xs={1} md={2} lg={3} xl={4} className="g-12 col-8">
       {pokemonList.map((pokemon, idx) => (
         <Col key={idx}>
             <PokemonCard pokemon = {pokemon} teams={teams} addPokemonToTeam={addPokemonToTeam} />

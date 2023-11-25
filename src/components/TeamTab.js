@@ -8,7 +8,6 @@ function TeamTab({ teams, deletePokemonFromTeam }) {
 
   const handleRemovePokemon = (teamName, pokemon) => {
     // Trigger the removePokemonFromTeam function with the teamName and pokemon
-
     deletePokemonFromTeam(teamName, pokemon);
   };
 
