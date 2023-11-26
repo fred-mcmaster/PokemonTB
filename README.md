@@ -6,13 +6,13 @@ challenging to remember a variety of Pokemon combinations in your memory. And th
 It provides you with a search tool and allows you to pick Pokemon for your team. Certainly, your selections will be noted
 and saved to the cloud database. You can easily grab that information whenever you need it. 
 
-# Tech set
+# Tech Sets
 
 Front-end: React, HTML, CSS, Bootstrap
 Back-end: Node.js
 Could Database: MongoDB 
 
-# Run the app
+# How to run it
 
 You will need all related node modules in order to run the application properly.
 
