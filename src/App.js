@@ -14,8 +14,17 @@ const App = () => {
   const  initTeams = [
     {
         name: 'Rain Team',
-        pokemons: ['Butterfree','Kingler','Machop'],
-    },
+        pokemons: [
+        {
+            id: '1',
+            name: 'Butterfree'
+        },
+        {
+            id: '2',
+            name: 'Kingler'
+        }
+        ]
+    }
   ]
   
   const [teams, setTeams] = useState(initTeams);
@@ -77,22 +86,23 @@ const deleteTeam = async (teamName) => {
 };
 // Reach server endpoint to add Pokemon to a team 
 const addPokemonToTeam = async (teamName, pokemon) => {
-  const formattedPokemonName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+  const formattedPokemon = {
+        id: pokemon.id,
+        name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1) 
+  }
   try {
     const response = await fetch(`http://localhost:5000/api/teams/${teamName}/pokemons`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ newPokemon: formattedPokemonName }),
+      body: JSON.stringify({ newPokemon: formattedPokemon }),
     });
 
     if (response.ok) {
-      //const updatedTeam = await response.json();
-      //console.log(updatedTeam)
       setTeams((prevTeams) =>
         prevTeams.map((team) => (team.name === teamName 
-          ? { ...team, pokemons: [...team.pokemons, formattedPokemonName] } 
+          ? { ...team, pokemons: [...team.pokemons, formattedPokemon] } 
           : team))
       );
     } else {
@@ -105,12 +115,11 @@ const addPokemonToTeam = async (teamName, pokemon) => {
 // Reach server endpoint to delete Pokemon to a team 
 const deletePokemonFromTeam = async (teamName, pokemon) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/teams/${teamName}/pokemons/${pokemon}`, {
+    const response = await fetch(`http://localhost:5000/api/teams/${teamName}/pokemons/${pokemon.name}`, {
         method: 'DELETE',
       }
     );
     if (response.ok) {
-      //const updatedTeam = await response.json();
       setTeams((prevTeams) =>
           prevTeams.map((team) =>
             team.name === teamName
@@ -166,7 +175,7 @@ const deletePokemonFromTeam = async (teamName, pokemon) => {
 
   return (
     <div className="px-3 py-3">
-      <h1>PokemonTB</h1>
+      <h1>Pokemon Team Builder</h1>
       <SearchBar onSearch={searchPokemon} />
       <PokemonList pokemonList={pokemonList} teams={teams} addPokemonToTeam={addPokemonToTeam} />
       <div className="d-flex">

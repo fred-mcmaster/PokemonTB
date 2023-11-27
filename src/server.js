@@ -13,7 +13,12 @@ app.use(cors());
 // Define the schema for a Pokemon team
 const teamSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  pokemons: { type: [String], default: [] },
+  pokemons: [
+    {
+        id: { type: String, required: false },
+        name: { type: String, required: false }
+    }  
+  ]
 });
 
 const TeamModel = mongoose.model('Team', teamSchema, 'teams');
@@ -79,7 +84,7 @@ const removePokemonFromTeam = async (teamName, pokemonName) => {
   try {
     const updateResult = await TeamModel.updateOne(
       { name: teamName },
-      { $pull: { pokemons: pokemonName } }
+      { $pull: { pokemons: {name: pokemonName} } }
     );
 
     if (updateResult.modifiedCount === 1) {

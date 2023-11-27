@@ -30,7 +30,7 @@ const SearchBar = ({ onSearch }) => {
                 />
          </Form.Group>    
          <Button className="col-md-1 mb-3" variant="dark" onClick={handleSearch}>
-            Search
+         Search
          </Button>
 
           {/* Alert message for empty team name */}

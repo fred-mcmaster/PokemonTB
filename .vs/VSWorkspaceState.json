@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src"
+    "\\src",
+    "\\src\\components"
   ],
-  "SelectedNode": "\\.gitignore",
+  "SelectedNode": "\\src\\logo.svg",
   "PreviewInSolutionExplorer": false
 }
